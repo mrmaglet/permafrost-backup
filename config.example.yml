@@ -1,0 +1,32 @@
+config:
+  output_path: ~/output
+
+default:
+  # zstd is used. If false files are only .tar.
+  compression: true
+  # Compression tool: zstd or xz.
+  # zstd = fast, xz = higher compression but slower.
+  compression_tool: xz
+  # Compression level – interpreted according to the chosen tool:
+  #   zstd: 1-22 (default 3, >19 requires ultra – handled automatically).
+  #   xz:   0-9  (default 6).
+  # 0/empty = the tool's default level. Values outside the range are clamped.
+  compression_level: 8
+  # Number of CPU threads for compression (applies to both zstd and xz).
+  # 0 (or empty) = all logical cores.
+  # N = exactly N threads.
+  threads: 4
+  # Split the archive into parts of N GB (piped: tar | zstd/xz | split).
+  # GB = decimal 10^9, so split: 2 = exactly 2,000,000,000 bytes per part.
+  # Parts are named archive.000, archive.001, ... A single part keeps the base name.
+  # 0 (or empty) = no split, a single archive.
+  split: 2
+
+backups:
+  - path: ~/Documents
+    # exclude: "~/tobackup/Save States"
+    # All default values can be overridden per path, e.g.:
+    # compression_tool: xz
+    # compression_level: 9
+    # threads: 4
+    # split: 6
